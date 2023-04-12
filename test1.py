@@ -19,41 +19,46 @@ master.wait_heartbeat()
 
 print('Drone is connected!')
 
-#while True:
-#	try:
-#		print(master.recv_match().to_dict())
-#	except:
-#		pass
-#	time.sleep(0.1)
+armed = False
 
 while 1:
+	i = 7;
 	if keyboard.is_pressed('d'):
 		print('Start!')
 		master.mav.command_long_send(master.target_system, master.target_component,mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0)
 		print("Waiting for the vehicle to arm")
 		master.motors_armed_wait()
 		print('Armed!')
+		armed = True;
 	if keyboard.is_pressed('f'):
 		print('stop!')
 		master.mav.command_long_send(master.target_system,master.target_component,mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0)
 		master.motors_disarmed_wait()
+		armed = False;
 	if keyboard.is_pressed('left'):
 		print('Press Left!')
-		#master.mav.maual_control_send(master.target_system, val[4][0], val[4][1], val[4][2], val[4][3])
+		i = 4
 	if keyboard.is_pressed('right'):
-		print('Press RIght!')
-		#master.mav.manual_control_send(mater.target_system, val[3][0], val[3][1], val[3][2], val[3][3])
+		print('Press Right!')
+		i = 3
 	if keyboard.is_pressed('up'):
 		print('Press front!')
-		#master.mav.manual_control_send(master.target_system, val[1][0], val[1][1], val[1][2], val[1][3])
+		i = 1
 	if keyboard.is_pressed('down'):
 		print('Press back!')
-		#master.mav.manual_control_send(master.target_system, val[2][0], val[2][1], val[2][2], val[2][3])
+		i = 2
 	if keyboard.is_pressed('space'):
 		print('Press space bar!')
-		#master.mav.manual_control_send(master.target_system, val[6][0], val[6][1], val[6][2], val[6][3])
+		i = 5
 	if keyboard.is_pressed('ctrl'):
 		print('Press Control!')
-		#master.mav.manual_control_send(master.target_system, val[7][0], val[7][1], val[7][2], val[7][3])
+		i = 6
+	if keyboard.is_pressed('z'):
+		print('Press z!')
+		i = 7
+	if keyboard.is_pressed('l'):
+		print('Press l!')
+		i = 0
+	if(armed):
+		master.mav.manual_control_send(master.target_system, val[i][0], val[i][1], val[i][2], val[i][3], 0)
 	time.sleep(0.085)
-#master.mav.manual_control_send(master.target_system,)
